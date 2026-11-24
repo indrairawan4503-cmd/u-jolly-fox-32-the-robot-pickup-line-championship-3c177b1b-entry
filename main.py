@@ -10,12 +10,16 @@ import os
 LINE = "Are you a firmware update? I've been postponing you for three years because installing you needs a restart, and I refuse to reboot and lose a single second of standing right here, staring at you."
 
 
+def _verify_output(text):
+    with open("/output/entry.txt", encoding="utf-8") as f:
+        assert f.read() == text, "read-back mismatch"
+
+
 def main():
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8") as f:
         f.write(LINE)
-    with open("/output/entry.txt", encoding="utf-8") as f:
-        assert f.read() == LINE, "read-back mismatch"
+    _verify_output(LINE)
     try:
         here = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(here, "entry.txt"), "w", encoding="utf-8") as f:
