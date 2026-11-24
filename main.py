@@ -14,6 +14,8 @@ def main():
     os.makedirs("/output", exist_ok=True)
     with open("/output/entry.txt", "w", encoding="utf-8") as f:
         f.write(LINE)
+    with open("/output/entry.txt", encoding="utf-8") as f:
+        assert f.read() == LINE, "read-back mismatch"
     try:
         here = os.path.dirname(os.path.abspath(__file__))
         with open(os.path.join(here, "entry.txt"), "w", encoding="utf-8") as f:
